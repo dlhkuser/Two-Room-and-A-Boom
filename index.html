@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>兩室一彈 玩家手冊</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;700;900&display=swap">
+<style>
+html{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+
+/* Layout: one column under a sticky charcoal title bar with tabs; team colours mark every role, like the cards. */
+:root {
+  --bg: #ECEAE5; --surface: #FFFFFF; --surface-2: #E3E0DA; --ink: #1F1F21; --muted: #55565A; --line: #D3D0C9;
+  --bar: #2E2E30; --bar-ink: #FFFFFF; --bar-muted: #C9C9CC;
+  --blue: #3753A4; --red: #C2202A; --grey: #66676A; --green: #3A8336; --purple: #4B3591;
+  --blue-ink: #2F4A96; --red-ink: #A51D25; --grey-ink: #4A4B4D; --green-ink: #2E6E2B; --purple-ink: #4B3591;
+  --focus: #3753A4;
+  --f-ui: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #19191B; --surface: #242427; --surface-2: #2D2D31; --ink: #EDEDEF; --muted: #A9A9AE; --line: #3A3A3F;
+  --bar: #0F0F11; --bar-ink: #FFFFFF; --bar-muted: #A9A9AE;
+  --blue: #4A68C2; --red: #D8323C; --grey: #77787C; --green: #4E9B48; --purple: #6A55BF;
+  --blue-ink: #8FA6EC; --red-ink: #F08A90; --grey-ink: #C3C3C7; --green-ink: #8FCB89; --purple-ink: #B3A6EE;
+  --focus: #8FA6EC; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #19191B; --surface: #242427; --surface-2: #2D2D31; --ink: #EDEDEF; --muted: #A9A9AE; --line: #3A3A3F;
+  --bar: #0F0F11; --bar-ink: #FFFFFF; --bar-muted: #A9A9AE;
+  --blue: #4A68C2; --red: #D8323C; --grey: #77787C; --green: #4E9B48; --purple: #6A55BF;
+  --blue-ink: #8FA6EC; --red-ink: #F08A90; --grey-ink: #C3C3C7; --green-ink: #8FCB89; --purple-ink: #B3A6EE;
+  --focus: #8FA6EC; color-scheme: dark }
+
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-ui); font-size: 15px; line-height: 1.6 }
+h1, h2, h3 { text-wrap: balance; margin: 0 }
+button { font: inherit; color: inherit }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px }
+
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bar); color: var(--bar-ink) }
+.bar-inner { max-width: 1000px; margin: 0 auto; padding: 14px 16px 0; display: flex; flex-direction: column; gap: 10px }
+.brand { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap }
+.brand h1 { font-size: 26px; font-weight: 900; letter-spacing: 2px }
+.brand span { font-size: 13px; font-weight: 700; color: var(--bar-muted); letter-spacing: 1px }
+.brand-right { display: flex; align-items: center; gap: 12px }
+.theme-btn { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px; border-radius: 18px; border: 1px solid var(--bar-muted); background: transparent; color: var(--bar-ink); font-weight: 700; font-size: 14px; cursor: pointer }
+.theme-btn span { color: var(--bar-ink); letter-spacing: 0 }
+.theme-btn:hover { background: rgba(255, 255, 255, .08) }
+.theme-btn .i-sun { display: none }
+.theme-btn.is-dark .i-sun { display: block }
+.theme-btn.is-dark .i-moon { display: none }
+.tabs { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none }
+.tab { background: none; border: 0; color: var(--bar-muted); font-weight: 700; font-size: 16px; padding: 8px 14px 12px; cursor: pointer; border-bottom: 4px solid transparent; white-space: nowrap }
+.tab[aria-selected="true"] { color: var(--bar-ink); border-bottom-color: var(--red) }
+.stripe { height: 6px; display: flex }
+.stripe i { flex: 1 } .stripe i:nth-child(1){background:var(--blue)} .stripe i:nth-child(2){background:var(--red)} .stripe i:nth-child(3){background:var(--grey)}
+
+main { max-width: 1000px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 64px }
+.panel { display: flex; flex-direction: column; gap: 28px }
+.sec { display: flex; flex-direction: column; gap: 12px }
+.sec > h2 { font-size: 22px; font-weight: 900 }
+.lead { color: var(--muted); max-width: 65ch; margin: 0 }
+.box { background: var(--surface); border: 1px solid var(--line); border-radius: 8px }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px }
+.card { padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; min-width: 0 }
+.card h3 { font-size: 17px; font-weight: 900 }
+.card p { margin: 0 }
+.band { height: 8px; border-radius: 8px 8px 0 0; display: flex; overflow: hidden }
+.band i { flex: 1 }
+
+.steps { display: flex; flex-direction: column; gap: 8px; counter-reset: s }
+.step { display: flex; background: var(--surface-2); border-radius: 8px; overflow: hidden }
+.step b { width: 48px; flex-shrink: 0; background: var(--bar); color: var(--bar-ink); font-size: 22px; font-weight: 900; display: flex; align-items: center; justify-content: center }
+.step div { padding: 10px 16px 12px; min-width: 0 }
+.step h3 { font-size: 16px; font-weight: 900 }
+.step p { margin: 0 }
+
+/* Setup tool */
+.picker { padding: 18px; display: flex; flex-wrap: wrap; gap: 18px 28px; align-items: center }
+.count { display: flex; align-items: center; gap: 10px }
+.count button { width: 44px; height: 44px; border-radius: 22px; border: 1px solid var(--line); background: var(--surface-2); font-size: 22px; font-weight: 900; cursor: pointer }
+.count output { font-size: 40px; font-weight: 900; min-width: 2.2ch; text-align: center; font-variant-numeric: tabular-nums; line-height: 1 }
+.count label { font-weight: 700; color: var(--muted) }
+.count input[type=range] { width: 180px; accent-color: var(--red) }
+.facts { display: flex; flex-wrap: wrap; gap: 8px }
+.fact { background: var(--surface-2); border-radius: 6px; padding: 6px 12px; font-weight: 700; font-size: 14px }
+.fact strong { font-weight: 900 }
+.hostage { overflow-x: auto }
+.hostage table { border-collapse: collapse; min-width: 420px; width: 100%; font-variant-numeric: tabular-nums }
+.hostage th, .hostage td { border-top: 1px solid var(--line); padding: 8px 10px; text-align: center }
+.hostage th:first-child, .hostage td:first-child { text-align: left }
+.hostage thead th { border-top: 0; font-size: 13px; color: var(--muted) }
+.hostage tr.on td { background: var(--surface-2); font-weight: 900 }
+.hostage td.off { color: var(--muted) }
+.plan { display: flex; overflow: hidden }
+.plan-side { width: 136px; flex-shrink: 0; background: var(--bar); color: var(--bar-ink); padding: 16px 14px; display: flex; flex-direction: column; gap: 8px }
+.plan-side .r { font-size: 24px; font-weight: 900; line-height: 1.1 }
+.plan-side .n { align-self: flex-start; background: var(--bar-ink); color: var(--bar); font-weight: 900; padding: 1px 9px; border-radius: 4px }
+.plan-side .m { font-size: 13px; color: var(--bar-muted); font-weight: 700; white-space: pre-line }
+.plan-main { padding: 14px 18px 16px; display: flex; flex-direction: column; gap: 8px; min-width: 0; flex: 1 }
+.plan-head { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; align-items: baseline }
+.plan-head h3 { font-size: 16px; font-weight: 900 }
+.tally { font-size: 13px; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums }
+.chips { display: flex; flex-wrap: wrap; gap: 6px }
+.chip { color: #FFFFFF; font-size: 14px; font-weight: 700; padding: 2px 10px; border-radius: 4px; white-space: nowrap }
+.c-B { background: var(--blue) } .c-R { background: var(--red) } .c-G { background: var(--grey) } .c-GN { background: var(--green) } .c-P { background: var(--purple) }
+.plan ul { margin: 0; padding-left: 1.2em }
+.plan .lbl { font-weight: 900; font-size: 14px; color: var(--muted) }
+.fit { font-size: 14px; font-weight: 700; padding: 8px 12px; border-radius: 6px; background: var(--surface-2) }
+@media (max-width: 560px) { .plan { flex-direction: column } .plan-side { width: auto; flex-direction: row; flex-wrap: wrap; align-items: center } }
+
+/* Roles */
+.tools { display: flex; flex-wrap: wrap; gap: 10px; align-items: center }
+.search { flex: 1 1 240px; min-width: 0; height: 44px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); padding: 0 14px; font: inherit }
+.filters { display: flex; flex-wrap: wrap; gap: 6px }
+.filter { height: 36px; padding: 0 14px; border-radius: 18px; border: 1px solid var(--line); background: var(--surface); font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px }
+.filter[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink) }
+.dot { width: 10px; height: 10px; border-radius: 2px; display: inline-flex; overflow: hidden }
+.dot i { flex: 1 }
+.roles { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px }
+.role { text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 0; cursor: pointer; display: flex; flex-direction: column; transition: opacity .15s, box-shadow .15s }
+.role .body { padding: 10px 14px 13px; display: flex; flex-direction: column; gap: 4px }
+.role .top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px }
+.role .zh { font-size: 20px; font-weight: 900; line-height: 1.3 }
+.role .team { font-size: 12px; font-weight: 700; white-space: nowrap }
+.role .en { font-size: 11px; font-weight: 700; letter-spacing: 1px; color: var(--muted) }
+.role .ab { font-size: 15px }
+.role .pr { font-size: 13px; font-weight: 700; color: var(--muted) }
+.roles.focus .role { opacity: .35 }
+.roles.focus .role.sel, .roles.focus .role.mate { opacity: 1 }
+.role.sel { box-shadow: 0 0 0 3px var(--ink) }
+.role.mate { box-shadow: 0 0 0 3px var(--muted) }
+.t-B { color: var(--blue-ink) } .t-R { color: var(--red-ink) } .t-BR, .t-G { color: var(--grey-ink) } .t-GN { color: var(--green-ink) } .t-P { color: var(--purple-ink) }
+.hint { font-size: 14px; color: var(--muted); margin: 0 }
+.empty { padding: 24px; text-align: center; color: var(--muted) }
+
+/* Pairs */
+.pair { padding: 12px 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px }
+.pair .nm { display: inline-flex; align-items: center; gap: 7px; font-size: 18px; font-weight: 900; white-space: nowrap }
+.pair .ar { color: var(--muted) }
+.tag { display: inline-block; color: #FFFFFF; font-weight: 900; padding: 2px 12px; border-radius: 4px; font-size: 15px }
+.tag-a { background: var(--bar) } .tag-b { background: var(--grey) } .tag-c { background: var(--muted) }
+.cond { overflow-x: auto }
+.cond table { border-collapse: collapse; width: 100%; min-width: 420px }
+.cond td { border-top: 1px solid var(--line); padding: 9px 14px; vertical-align: top }
+.cond tr:first-child td { border-top: 0 }
+.cond td:first-child { font-weight: 900; white-space: nowrap; width: 8em }
+@media (prefers-reduced-motion: reduce) { .role { transition: none } }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="bar-inner">
+    <div class="brand"><h1>兩室一彈</h1>
+      <div class="brand-right"><span>玩家手冊 · 6–30 人</span>
+        <button type="button" class="theme-btn" id="themeBtn" aria-label="切換深色模式">
+          <svg class="i-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+          <svg class="i-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+          <span id="themeLabel">深色</span>
+        </button>
+      </div>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="手冊分頁">
+      <button class="tab" role="tab" id="tab-rules" aria-controls="rules" data-tab="rules">規則</button>
+      <button class="tab" role="tab" id="tab-setup" aria-controls="setup" data-tab="setup">組牌</button>
+      <button class="tab" role="tab" id="tab-roles" aria-controls="roles" data-tab="roles">角色</button>
+      <button class="tab" role="tab" id="tab-pairs" aria-controls="pairs" data-tab="pairs">配對與狀態</button>
+    </nav>
+  </div>
+  <div class="stripe"><i></i><i></i><i></i></div>
+</header>
+
+<main>
+  <!-- RULES -->
+  <section class="panel" id="rules" role="tabpanel" aria-labelledby="tab-rules">
+    <div class="sec">
+      <h2>遊戲目標</h2>
+      <p class="lead">玩家分成藍隊與紅隊，平均分散在兩個房間。藍隊有總統，紅隊有炸彈客。每回合結束時兩個房間交換人質；最後一次交換後，所有人翻開卡牌，看總統與炸彈客有沒有在同一個房間。</p>
+      <div class="grid3">
+        <div class="box"><div class="band"><i class="c-B"></i></div><div class="card"><h3 class="t-B">藍隊獲勝</h3><p>遊戲結束時，總統與炸彈客在不同房間。</p></div></div>
+        <div class="box"><div class="band"><i class="c-R"></i></div><div class="card"><h3 class="t-R">紅隊獲勝</h3><p>遊戲結束時，炸彈客與總統在同一房間。</p></div></div>
+        <div class="box"><div class="band"><i class="c-G"></i></div><div class="card"><h3 class="t-G">其他角色</h3><p>灰隊與特殊隊伍，依各自卡牌上的目標判定勝負。</p></div></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <h2>遊戲準備</h2>
+      <div class="steps">
+        <div class="step"><b>1</b><div><h3>組好角色牌</h3><p>放入總統、炸彈客，以及數量相等的藍隊與紅隊卡，總張數等於玩家人數。人數為奇數時加入賭徒。可在「組牌」分頁依人數挑範例。</p></div></div>
+        <div class="step"><b>2</b><div><h3>分成兩個房間</h3><p>把玩家隨機、平均分到兩個房間。看得到對方沒關係，但不能聽到另一邊說話。</p></div></div>
+        <div class="step"><b>3</b><div><h3>發角色牌</h3><p>每人面朝下拿一張角色卡。遊戲開始前先不要看。</p></div></div>
+        <div class="step"><b>4</b><div><h3>開始計時</h3><p>基本遊戲 3 回合：3 分鐘、2 分鐘、1 分鐘。超過 10 人可玩 5 回合（5、4、3、2、1 分鐘）。</p></div></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <h2>基本規則</h2>
+      <div class="grid2">
+        <div class="box card"><h3>時間是公開的</h3><p>任何人都可以計時，每回合何時結束要讓所有人清楚知道。</p></div>
+        <div class="box card"><h3>待在自己的房間</h3><p>除非被選為人質，否則不能隨意走到另一個房間。</p></div>
+        <div class="box card"><h3>房間之間不准溝通</h3><p>不能喊話、偷聽，看得到對方也不能比手勢。</p></div>
+        <div class="box card"><h3>卡牌留在手上</h3><p>可以給某人、所有人或誰都不給看，但不能交換卡牌。要給人看就得給整張。</p></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <h2>領袖與人質</h2>
+      <div class="grid2">
+        <div class="box card"><h3>領袖</h3><p>每個房間的第一位領袖由其他玩家指定：指著對方說「我任命你當領袖！」，不能任命自己。領袖拿著領袖卡，身分公開，而且不能當人質。</p></div>
+        <div class="box card"><h3>人質</h3><p>回合結束時由領袖選出、要送到另一個房間的玩家。人數依玩家總數與回合而定，「組牌」分頁有對照表。</p></div>
+        <div class="box card"><h3>領袖讓位</h3><p>把領袖卡交給願意接手的玩家。對方可以拒絕；接受後，這回合內不能再交還。</p></div>
+        <div class="box card"><h3>領袖被篡位</h3><p>回合中一手舉高、另一手指向想要的新領袖（可以指自己）。房間裡超過半數的人指向同一人時，他立刻成為新領袖。</p></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <h2>回合結束</h2>
+      <p class="lead">時間一到，兩位領袖依序進行：</p>
+      <div class="steps">
+        <div class="step"><b>1</b><div><h3>領袖選出人質</h3><p>讓房間裡的人知道選了誰。選定後不能改，也不能選自己。</p></div></div>
+        <div class="step"><b>2</b><div><h3>領袖談判</h3><p>兩位領袖在兩房之間碰面，人質先留在原地。</p></div></div>
+        <div class="step"><b>3</b><div><h3>開始下一回合計時</h3><p>剛結束的若是最後一回合，略過這一步。</p></div></div>
+        <div class="step"><b>4</b><div><h3>交換人質</h3><p>兩邊互送相同人數到對面房間。</p></div></div>
+        <div class="step"><b>5</b><div><h3>回到你的房間</h3><p>下一回合開始。</p></div></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <h2>遊戲結束</h2>
+      <p class="lead">最後一次交換後所有人翻牌：總統和炸彈客同房，紅隊全隊獲勝；否則藍隊全隊獲勝。再逐一確認灰隊與其他角色。有賭徒時，賭徒在其他人翻牌前先亮牌，宣布猜紅隊、藍隊或兩者皆非獲勝，猜對就贏。</p>
+    </div>
+
+    <div class="sec">
+      <h2>分享與展示</h2>
+      <div class="grid2">
+        <div class="box card"><h3>卡牌分享 · 雙向</h3><p>兩人同意後，互相看對方整張卡。</p></div>
+        <div class="box card"><h3>顏色分享 · 雙向</h3><p>兩人同意後，只互看卡牌顏色。超過 10 人才可使用。</p></div>
+        <div class="box card"><h3>私下展示 · 單向</h3><p>只讓一位玩家看你的卡。</p></div>
+        <div class="box card"><h3>公開展示 · 單向</h3><p>讓多位玩家看你的卡。「永久公開展示」是整局把卡亮在外面。</p></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <h2>補充規則</h2>
+      <div class="grid3">
+        <div class="box card"><h3>角色優先</h3><p>進階角色的能力和基本規則衝突時，以角色卡為準。</p></div>
+        <div class="box card"><h3>埋牌</h3><p>多放一張牌不發給任何人。埋牌時一定要放入總統千金與烈士。</p></div>
+        <div class="box card"><h3>開口就要做到</h3><p>你邀請別人分享、對方答應了，你就必須照做。</p></div>
+        <div class="box card"><h3>新卡等於清空</h3><p>拿到新的角色卡時，之前所有狀態都會消失。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SETUP -->
+  <section class="panel" id="setup" role="tabpanel" aria-labelledby="tab-setup" hidden>
+    <div class="box picker">
+      <div class="count">
+        <button type="button" id="minus" aria-label="減少一人">−</button>
+        <output id="countOut" for="countRange">8</output>
+        <button type="button" id="plus" aria-label="增加一人">+</button>
+        <label for="countRange">人</label>
+        <input type="range" id="countRange" min="6" max="30" value="8">
+      </div>
+      <div class="facts" id="facts"></div>
+    </div>
+
+    <div class="sec">
+      <h2>每回合人質數</h2>
+      <div class="box hostage"><table id="hostTable"></table></div>
+    </div>
+
+    <div class="sec">
+      <h2 id="planTitle">推薦組牌</h2>
+      <div id="plans" class="panel" style="gap:14px"></div>
+    </div>
+
+    <div class="sec">
+      <h2>組牌原則</h2>
+      <div class="steps">
+        <div class="step"><b>1</b><div><p>總統與炸彈客一定要放入。</p></div></div>
+        <div class="step"><b>2</b><div><p>藍紅兩隊人數相同：加一張藍隊角色，就加它的紅隊配對；藍紅同名的角色兩張一起放。</p></div></div>
+        <div class="step"><b>3</b><div><p>人數為奇數時，加一張灰隊（例如賭徒）。</p></div></div>
+        <div class="step"><b>4</b><div><p>「連動」角色要整組放入，而且不能被埋。</p></div></div>
+        <div class="step"><b>5</b><div><p>埋牌時一定要放入總統千金與烈士。</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROLES -->
+  <section class="panel" id="roles" role="tabpanel" aria-labelledby="tab-roles" hidden>
+    <div class="tools">
+      <label for="q" class="hint" style="position:absolute;left:-9999px">搜尋角色</label>
+      <input id="q" class="search" type="search" placeholder="搜尋角色名稱或能力（中英文皆可）" autocomplete="off">
+      <div class="filters" id="filters"></div>
+    </div>
+    <p class="hint" id="roleHint">點一下角色，會標出要和它一起放入的角色。</p>
+    <div class="roles" id="roleGrid"></div>
+  </section>
+
+  <!-- PAIRS -->
+  <section class="panel" id="pairs" role="tabpanel" aria-labelledby="tab-pairs" hidden>
+    <div id="pairList" class="panel" style="gap:24px"></div>
+    <div class="sec">
+      <h2>狀態速查</h2>
+      <p class="lead">卡上用「」標示的是狀態，會持續到被移除。互相矛盾的狀態會互相抵銷；「害羞」「含蓄」「多疑」可由心理學家移除，軍醫可移除所有狀態。</p>
+      <div class="box cond"><table id="condTable"></table></div>
+    </div>
+  </section>
+</main>
+
+<script>
+const TEAM = {
+  B: { label: '藍隊', bands: ['var(--blue)'] },
+  R: { label: '紅隊', bands: ['var(--red)'] },
+  BR: { label: '藍隊／紅隊', bands: ['var(--blue)', 'var(--red)'] },
+  G: { label: '灰隊', bands: ['var(--grey)'] },
+  GN: { label: '綠隊', bands: ['var(--green)'] },
+  P: { label: '????隊', bands: ['var(--purple)'] }
+};
+// [zh, en, team, ability, note]
+const ROLES = [
+['總統','PRESIDENT','B','避開炸彈客。'],['炸彈客','BOMBER','R','與總統同房。'],
+['藍隊隊員','BLUE TEAM','B','讓總統遠離炸彈客。'],['紅隊隊員','RED TEAM','R','讓炸彈客與總統同房。'],
+['賭徒','GAMBLER','G','猜中獲勝的是紅隊、藍隊或兩者皆非。'],
+['特務','AGENT','BR','每回合可強制一次卡牌分享。'],['大使','AMBASSADOR','BR','可在兩個房間之間自由走動。'],
+['天使','ANGEL','BR','必須說實話。'],['盲人','BLIND','BR','全程閉上眼睛。'],['保鑣','BOUNCER','BR','多踢走一名玩家。'],
+['小丑','CLOWN','BR','永遠保持微笑。'],['騙子','CONMAN','BR','顏色分享視為私下展示。'],
+['含蓄男','COYBOY','BR','因為你很「含蓄」，只能顏色分享。'],['罪犯','CRIMINAL','BR','卡牌分享後對方變得「害羞」。'],
+['毒販','DEALER','BR','卡牌分享後對方變得「愚蠢」。'],['惡魔','DEMON','BR','必須說謊。'],
+['執法者','ENFORCER','BR','每回合可強制玩家卡牌分享一次。'],['市長','MAYOR','BR','公開展示後，偶數人房間中篡位投票算兩票。'],
+['軍醫','MEDIC','BR','卡牌分享可移除所有「狀態」。'],['默劇演員','MIME','BR','絕不說話。'],
+['木乃伊','MUMMY','BR','卡牌分享後對方「受詛咒」。'],['狗仔','PAPARAZZO','BR','無視隱私。'],
+['談判專家','NEGOTIATOR','BR','因為你很「精明」，只能卡牌分享。'],['多疑者','PARANOID','BR','你只能卡牌分享一次。'],
+['心理學家','PSYCHOLOGIST','BR','移除精神類「狀態」。'],['保全','SECURITY','BR','永久公開展示，可撲倒一名玩家。'],
+['害羞鬼','SHY GUY','BR','因為你很「害羞」，不能分享或展示。'],['暴徒','THUG','BR','卡牌分享後對方變得「含蓄」。'],
+['篡位者','USURPER','BR','永久公開展示，成為房間領袖。'],
+['醫生','DOCTOR','B','與總統進行卡牌分享。'],['厄里斯','ERIS','B','每局一次，讓兩名玩家「相恨」。'],
+['無敵者','INVINCIBLE','B','免疫所有能力與「狀態」。'],['護士','NURSE','B','若無醫生，你就是醫生。'],
+['總統千金','PRESIDENT’S DAUGHTER','B','若無總統，你就是總統。'],['藍方間諜','BLUE SPY','B','你看起來像紅隊。','卡牌是紅色的'],
+['星期二騎士','TUESDAY KNIGHT','B','與炸彈客卡牌分享即立刻獲勝。'],
+['邱比特','CUPID','R','每局一次，讓兩名玩家「相愛」。'],['爆炸博士','DR. BOOM','R','與總統卡牌分享即立刻獲勝。'],
+['工程師','ENGINEER','R','與炸彈客進行卡牌分享。'],['免疫學家','IMMUNOLOGIST','R','免疫所有能力與「狀態」。'],
+['烈士','MARTYR','R','若無炸彈客，你就是炸彈客。'],['紅方間諜','RED SPY','R','你看起來像藍隊。','卡牌是藍色的'],
+['修補匠','TINKERER','R','若無工程師，你就是工程師。'],
+['廣場恐懼者','AGORAPHOBE','G','永遠不離開你的房間。'],['亞哈','AHAB','G','遠離白鯨與炸彈客。'],
+['無政府主義者','ANARCHIST','G','在過半數回合中篡奪房間領袖。'],['炸彈機器人','BOMB-BOT','G','與炸彈客同房，避開總統。'],
+['管家','BUTLER','G','與女僕及總統同房。'],['複製人','CLONE','G','第一位與你分享的玩家必須獲勝。'],
+['誘餌','DECOY','G','被狙擊手射中。'],['燙手山芋','HOT POTATO','G','你會落敗，但分享改為交換。'],
+['實習生','INTERN','G','與總統同房。'],['茱麗葉','JULIET','G','與羅密歐及炸彈客同房。'],
+['女僕','MAID','G','與管家及總統同房。'],['幕後主腦','MASTERMIND','G','當過兩個房間的領袖，且結束時仍是領袖。'],
+['軍情六處','MI6','G','與總統及炸彈客進行卡牌分享。'],['嘍囉','MINION','G','若你的領袖被篡位，你即落敗。'],
+['情婦','MISTRESS','G','與總統同房，避開妻子。'],['白鯨','MOBY','G','避開炸彈客與亞哈。'],
+['核武暴君','NUCLEAR TYRANT','G','你很「愚蠢」，不可與主要角色卡牌分享。'],['私家偵探','PRIVATE EYE','G','猜出被埋的牌。'],
+['女王','QUEEN','G','避開總統與炸彈客。'],['對手','RIVAL','G','避開總統。'],
+['機器人','ROBOT','G','第一位與你分享的玩家必須落敗。'],['羅密歐','ROMEO','G','與茱麗葉及炸彈客同房。'],
+['狙擊手','SNIPER','G','射中目標。'],['倖存者','SURVIVOR','G','避開炸彈客。'],['目標','TARGET','G','別被狙擊手射中。'],
+['旅人','TRAVELER','G','在過半數回合中被送去當人質。'],['受害者','VICTIM','G','與炸彈客同房。'],
+['妻子','WIFE','G','與總統同房，避開情婦。'],
+['醉漢','DRUNK','P','在最後一回合清醒。'],['小矮妖','LEPRECHAUN','GN','你獲勝，你很「愚蠢」，且分享改為交換。'],
+['殭屍','ZOMBIE','GN','把所有倖存者變成殭屍。']
+].map(r => ({ zh: r[0], en: r[1], t: r[2], ab: r[3], extra: r[4] || '' }));
+
+const PAIRS = [
+  { kind: '成對', cls: 'tag-a', desc: '放入其中一張時，建議把另一張也放入，讓兩隊保持平衡。', sets: [
+    ['總統','炸彈客'],['藍隊隊員','紅隊隊員'],['天使','惡魔'],['醫生','工程師'],['護士','修補匠'],
+    ['總統千金','烈士'],['厄里斯','邱比特'],['星期二騎士','爆炸博士'],['倖存者','受害者'] ] },
+  { kind: '連動', cls: 'tag-b', desc: '必須整組一起放入才能運作，而且不能被埋。', sets: [
+    ['亞哈','白鯨'],['管家','女僕'],['羅密歐','茱麗葉'],['情婦','妻子'],['狙擊手','誘餌','目標'] ] },
+  { kind: '對應角色', cls: 'tag-c', desc: '卡上沒有標示，但能力互相對應，一起放入較公平。', sets: [
+    ['紅方間諜','藍方間諜'],['無敵者','免疫學家'] ] }
+];
+
+const CONDS = [
+  ['「誠實」','說出口的話必須是真的。（天使）'],['「說謊」','說出口的話必須是假的。（惡魔）'],
+  ['「盲目」','盡量全程閉上眼睛。（盲人）'],['「害羞」','不能讓任何人看你卡牌的任何部分。'],
+  ['「含蓄」','只能進行顏色分享。'],['「多疑」','只能卡牌分享，而且整局只能一次。'],
+  ['「精明」','只能進行卡牌分享。'],['「愚蠢」','任何分享邀請都不能拒絕。'],
+  ['「受詛咒」','盡量不發出任何聲音，需要開口的能力也不能用。'],
+  ['「相愛」','目標改為：遊戲結束時與你「相愛」的人在同一個房間。'],
+  ['「相恨」','目標改為：遊戲結束時與你「相恨」的人在不同房間。'],
+  ['「免疫」','不受任何能力與狀態影響。']
+];
+
+// Hostages per round from the leader card; columns are round lengths 5,4,3,2,1 minutes.
+const BRACKETS = [
+  { id: 'a', min: 6, max: 10, label: '6–10 人', host: [null, null, 1, 1, 1], rounds: '3 回合', color: false },
+  { id: 'b', min: 11, max: 13, label: '11–13 人', host: [2, 2, 1, 1, 1], rounds: '3 或 5 回合', color: true },
+  { id: 'c', min: 14, max: 17, label: '14–17 人', host: [3, 2, 2, 1, 1], rounds: '5 回合', color: true },
+  { id: 'd', min: 18, max: 21, label: '18–21 人', host: [4, 3, 2, 1, 1], rounds: '5 回合', color: true },
+  { id: 'e', min: 22, max: 30, label: '22 人以上', host: [5, 4, 3, 2, 1], rounds: '5 回合', color: true }
+];
+
+const core16 = [['總統','B'],['醫生','B'],['天使（藍）','B'],['特務（藍）','B'],['藍方間諜','B'],['藍隊隊員 ×3','B'],['炸彈客','R'],['工程師','R'],['惡魔（紅）','R'],['特務（紅）','R'],['紅方間諜','R'],['紅隊隊員 ×3','R']];
+const grey4 = [['管家','G'],['女僕','G'],['羅密歐','G'],['茱麗葉','G']];
+const PLANS = [
+  { b: 'a', name: '標準局', size: 8, meta: '新手首選', tally: '藍 4 · 紅 4',
+    chips: [['總統','B'],['藍隊隊員 ×3','B'],['炸彈客','R'],['紅隊隊員 ×3','R']],
+    label: '想加點變化', ideas: ['人數為奇數：再加一張賭徒。','拿掉一張藍隊隊員＋一張紅隊隊員，換成「醫生＋工程師」或「天使＋惡魔」。'],
+    note: ['先別用：', '含蓄男、騙子、暴徒、談判專家、間諜（都要用到顏色分享），以及特務、執法者、亞哈＋白鯨。'] },
+  { b: 'a', name: '演技派', size: 9, meta: '適合派對、新手', tally: '藍 4 · 紅 4 · 灰 1',
+    chips: [['總統','B'],['小丑（藍）','B'],['默劇演員（藍）','B'],['藍隊隊員','B'],['炸彈客','R'],['小丑（紅）','R'],['默劇演員（紅）','R'],['紅隊隊員','R'],['賭徒','G']],
+    label: '玩法重點', ideas: ['小丑要一直保持微笑、默劇演員完全不能說話，光看誰在演就有很多線索。','藍紅兩邊都有小丑和默劇演員，演技不代表隊伍。'],
+    note: ['人數調整：', '8 人拿掉賭徒；10 人再加盲人（藍）＋盲人（紅），拿掉賭徒。'] },
+  { b: 'a', name: '狀態攻防', size: 10, meta: '適合玩過幾局的玩家', tally: '藍 5 · 紅 5',
+    chips: [['總統','B'],['醫生','B'],['天使（藍）','B'],['罪犯（藍）','B'],['軍醫（藍）','B'],['炸彈客','R'],['工程師','R'],['惡魔（紅）','R'],['罪犯（紅）','R'],['軍醫（紅）','R']],
+    label: '玩法重點', ideas: ['罪犯一分享，對方就變「害羞」；軍醫分享可以把狀態清掉。','總統一定要找到醫生分享、炸彈客一定要找到工程師分享，否則該隊就輸。','天使只能說真話、惡魔只能說假話。'],
+    note: ['人數調整：', '9 人拿掉一組軍醫，再加賭徒；8 人拿掉兩張軍醫。'] },
+  { b: 'b', name: '標準局', size: 12, meta: '可以顏色分享', tally: '藍 6 · 紅 6',
+    chips: [['總統','B'],['醫生','B'],['特務（藍）','B'],['藍隊隊員 ×3','B'],['炸彈客','R'],['工程師','R'],['特務（紅）','R'],['紅隊隊員 ×3','R']],
+    label: '想加點變化', ideas: ['13 人：加一張灰隊，例如賭徒、旅人或對手。','可加入：紅方間諜＋藍方間諜、含蓄男 ×2、執法者 ×2。'],
+    note: ['先別用：', '小矮妖、殭屍、醉漢（留到大型局再玩）。'] },
+  { b: 'b', name: '間諜疑雲', size: 12, meta: '考驗觀察力', tally: '藍 6 · 紅 6',
+    chips: [['總統','B'],['藍方間諜','B'],['含蓄男（藍）','B'],['騙子（藍）','B'],['藍隊隊員 ×2','B'],['炸彈客','R'],['紅方間諜','R'],['含蓄男（紅）','R'],['騙子（紅）','R'],['紅隊隊員 ×2','R']],
+    label: '玩法重點', ideas: ['間諜卡的顏色和真正的隊伍相反，顏色分享時最會騙人。','含蓄男只能顏色分享，最容易被間諜騙。','有人答應和騙子顏色分享時，雙方都要改成給對方看整張卡。'],
+    note: ['人數調整：', '11 人拿掉藍紅隊員各一張，再加賭徒；13 人加賭徒。'] },
+  { b: 'b', name: '領袖爭奪', size: 12, meta: '最適合 12 人', tally: '藍 5 · 紅 5 · 灰 2',
+    chips: [['總統','B'],['市長（藍）','B'],['執法者（藍）','B'],['藍隊隊員 ×2','B'],['炸彈客','R'],['市長（紅）','R'],['執法者（紅）','R'],['紅隊隊員 ×2','R'],['無政府主義者','G'],['嘍囉','G']],
+    label: '玩法重點', ideas: ['無政府主義者要在過半數回合篡位成功；嘍囉不希望自己房間的領袖被篡位。','市長公開後，在偶數人房間投票篡位算兩票。','執法者每回合可強迫玩家卡牌分享。'],
+    note: ['人數調整：', '11 人拿掉嘍囉；13 人加賭徒。'] },
+  { b: 'c', name: '標準局', size: 16, meta: '可以顏色分享', tally: '藍 8 · 紅 8', chips: core16,
+    label: '想加點變化', ideas: ['奇數人數：加賭徒，或改用埋牌（記得放總統千金＋烈士）。','拿掉一藍一紅隊員，換成「亞哈＋白鯨」或「情婦＋妻子」。','想多點變數：再加「邱比特＋厄里斯」。'] },
+  { b: 'd', name: '標準局', size: 20, meta: '可以顏色分享', tally: '藍 8 · 紅 8 · 灰 4', chips: core16.concat(grey4),
+    label: '想加點變化', ideas: ['奇數人數：加一張灰隊單人角色，例如實習生、女王或旅人。','試試埋牌，並加入總統千金＋烈士；想更刺激再加私家偵探。','也可換上：保鑣 ×2、大使 ×2，或「護士＋修補匠」。'] },
+  { b: 'e', name: '標準局', size: 24, meta: '可以顏色分享', tally: '藍 10 · 紅 10 · 灰 4',
+    chips: core16.concat([['篡位者（藍）','B'],['保全（藍）','B'],['篡位者（紅）','R'],['保全（紅）','R']]).concat(grey4),
+    label: '想加點變化', ideas: ['派對角色：小矮妖、殭屍、醉漢會大幅改變局勢，一次只加一種。','醉漢開局前要先抽出一張「清醒牌」放在兩房之間，請同時放入總統千金＋烈士。','人很多時，狙擊手組合比較難發揮。'] }
+];
+
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+const bands = (t) => TEAM[t].bands.map((c) => `<i style="background:${c}"></i>`).join('');
+const store = { get(k) { try { return localStorage.getItem(k) } catch (e) { return null } }, set(k, v) { try { localStorage.setItem(k, v) } catch (e) {} } };
+
+/* Light / dark toggle: a saved choice wins; otherwise follow the device setting. */
+const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+function isDark() {
+  const t = document.documentElement.getAttribute('data-theme');
+  return t ? t === 'dark' : darkQuery.matches;
+}
+function syncThemeBtn() {
+  const dark = isDark();
+  const btn = $('#themeBtn');
+  btn.classList.toggle('is-dark', dark);
+  $('#themeLabel').textContent = dark ? '淺色' : '深色';
+  btn.setAttribute('aria-label', dark ? '切換成淺色模式' : '切換成深色模式');
+}
+const savedTheme = store.get('trab-theme');
+if (savedTheme === 'light' || savedTheme === 'dark') document.documentElement.setAttribute('data-theme', savedTheme);
+$('#themeBtn').addEventListener('click', () => {
+  const next = isDark() ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  store.set('trab-theme', next);
+  syncThemeBtn();
+});
+darkQuery.addEventListener('change', syncThemeBtn);
+syncThemeBtn();
+
+/* Tabs */
+const tabs = [...document.querySelectorAll('.tab')];
+function showTab(id) {
+  tabs.forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tab === id)));
+  ['rules', 'setup', 'roles', 'pairs'].forEach((p) => { $('#' + p).hidden = p !== id });
+  store.set('trab-tab', id);
+}
+tabs.forEach((b) => b.addEventListener('click', () => { showTab(b.dataset.tab); window.scrollTo({ top: 0 }) }));
+const fromHash = location.hash.replace('#', '');
+showTab(['rules', 'setup', 'roles', 'pairs'].includes(fromHash) ? fromHash : (store.get('trab-tab') || 'rules'));
+
+/* Setup tool */
+const range = $('#countRange');
+function bracketOf(n) { return BRACKETS.find((b) => n >= b.min && n <= b.max) }
+function renderSetup() {
+  const n = Number(range.value);
+  $('#countOut').textContent = n;
+  const br = bracketOf(n);
+  const odd = n % 2 === 1;
+  $('#facts').innerHTML = [
+    `<span class="fact"><strong>${br.label}</strong></span>`,
+    `<span class="fact">${br.rounds}</span>`,
+    `<span class="fact">${br.color ? '可以顏色分享' : '只能整張給人看'}</span>`,
+    `<span class="fact">${odd ? '奇數人數：加一張灰隊或埋牌' : '偶數人數：藍紅各半'}</span>`
+  ].join('');
+  const heads = ['5 分鐘', '4 分鐘', '3 分鐘', '2 分鐘', '1 分鐘'];
+  $('#hostTable').innerHTML = `<thead><tr><th>人數</th>${heads.map((h) => `<th>${h}</th>`).join('')}</tr></thead><tbody>` +
+    BRACKETS.map((b) => `<tr class="${b === br ? 'on' : ''}"><td>${b.label}</td>${b.host.map((v) => v == null ? '<td class="off">—</td>' : `<td>${v}</td>`).join('')}</tr>`).join('') +
+    '</tbody>';
+  const list = PLANS.filter((p) => p.b === br.id);
+  $('#planTitle').textContent = `${br.label}的推薦組牌（${list.length} 套）`;
+  $('#plans').innerHTML = list.map((p) => {
+    const diff = n - p.size;
+    const hasGrey = p.chips.some((c) => c[1] === 'G');
+    const k = Math.floor(Math.abs(diff) / 2), oddStep = Math.abs(diff) % 2 === 1;
+    const steps = [];
+    if (diff > 0) {
+      if (oddStep) steps.push('加一張灰隊（例如賭徒）');
+      if (k) steps.push(`藍紅各加 ${k} 張（隊員、配對或同名角色）`);
+    } else if (diff < 0) {
+      if (oddStep) steps.push(hasGrey ? '拿掉一張灰隊' : '藍紅各拿掉一張隊員，再加一張賭徒');
+      if (k) steps.push(`藍紅各拿掉 ${k} 張隊員或一組配對`);
+    }
+    const fit = diff === 0
+      ? `<div class="fit">正好 ${n} 人，照下面的牌組直接開玩。</div>`
+      : `<div class="fit">範例是 ${p.size} 人，你們${diff > 0 ? '多' : '少'} ${Math.abs(diff)} 人：${steps.join('，')}。</div>`;
+    return `<article class="box plan">
+      <div class="plan-side"><div class="r">${br.label}</div><div class="n">${esc(p.name)}</div><div class="m">${br.rounds}\n${esc(p.meta)}</div></div>
+      <div class="plan-main">
+        <div class="plan-head"><h3>範例：${p.size} 人</h3><span class="tally">${p.tally}</span></div>
+        ${fit}
+        <div class="chips">${p.chips.map((c) => `<span class="chip c-${c[1]}">${esc(c[0])}</span>`).join('')}</div>
+        <div class="lbl">${p.label}</div>
+        <ul>${p.ideas.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>
+        ${p.note ? `<div><span class="lbl">${p.note[0]}</span>${esc(p.note[1])}</div>` : ''}
+      </div></article>`;
+  }).join('');
+  store.set('trab-n', String(n));
+}
+const savedN = Number(store.get('trab-n'));
+if (savedN >= 6 && savedN <= 30) range.value = savedN;
+range.addEventListener('input', renderSetup);
+$('#minus').addEventListener('click', () => { range.value = Math.max(6, Number(range.value) - 1); renderSetup() });
+$('#plus').addEventListener('click', () => { range.value = Math.min(30, Number(range.value) + 1); renderSetup() });
+renderSetup();
+
+/* Roles */
+const mates = {};
+PAIRS.forEach((g) => g.sets.forEach((set) => set.forEach((a) => {
+  mates[a] = mates[a] || [];
+  set.forEach((b) => { if (b !== a) mates[a].push({ zh: b, kind: g.kind }) });
+})));
+const FILTERS = [['all', '全部'], ['B', '藍隊專屬'], ['R', '紅隊專屬'], ['BR', '兩隊各一'], ['G', '灰隊'], ['X', '其他隊伍']];
+let filter = 'all', selected = null;
+$('#filters').innerHTML = FILTERS.map(([k, l]) => {
+  const dot = k === 'all' ? '' : k === 'X' ? `<span class="dot"><i style="background:var(--green)"></i><i style="background:var(--purple)"></i></span>` : `<span class="dot">${bands(k)}</span>`;
+  return `<button type="button" class="filter" data-f="${k}" aria-pressed="${k === filter}">${dot}${l}</button>`;
+}).join('');
+$('#filters').addEventListener('click', (e) => {
+  const b = e.target.closest('.filter'); if (!b) return;
+  filter = b.dataset.f;
+  document.querySelectorAll('.filter').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+  renderRoles();
+});
+$('#q').addEventListener('input', renderRoles);
+function pairText(r) {
+  const m = mates[r.zh];
+  const parts = [];
+  if (m) {
+    const byKind = {};
+    m.forEach((x) => { (byKind[x.kind] = byKind[x.kind] || []).push(x.zh) });
+    Object.entries(byKind).forEach(([k, v]) => parts.push(k === '對應角色' ? `對應：${v.join('、')}` : `與${v.join('、')}${k}`));
+  }
+  if (r.extra) parts.push(r.extra);
+  return parts.join(' · ');
+}
+function renderRoles() {
+  const q = $('#q').value.trim().toLowerCase();
+  const list = ROLES.filter((r) => {
+    const okF = filter === 'all' || (filter === 'X' ? (r.t === 'GN' || r.t === 'P') : r.t === filter);
+    const okQ = !q || r.zh.includes(q) || r.en.toLowerCase().includes(q) || r.ab.includes(q);
+    return okF && okQ;
+  });
+  const sel = selected && list.some((r) => r.zh === selected) ? selected : null;
+  const mateSet = new Set(sel && mates[sel] ? mates[sel].map((x) => x.zh) : []);
+  const grid = $('#roleGrid');
+  grid.classList.toggle('focus', !!sel);
+  grid.innerHTML = list.length ? list.map((r) => {
+    const pt = pairText(r);
+    const cls = r.zh === sel ? ' sel' : mateSet.has(r.zh) ? ' mate' : '';
+    return `<button type="button" class="role${cls}" data-zh="${esc(r.zh)}" aria-pressed="${r.zh === sel}">
+      <span class="band">${bands(r.t)}</span>
+      <span class="body">
+        <span class="top"><span class="zh">${esc(r.zh)}</span><span class="team t-${r.t}">${TEAM[r.t].label}</span></span>
+        <span class="en">${esc(r.en)}</span>
+        <span class="ab">${esc(r.ab)}</span>
+        ${pt ? `<span class="pr">${esc(pt)}</span>` : ''}
+      </span></button>`;
+  }).join('') : '<div class="box empty">找不到符合的角色，試試別的關鍵字或切換篩選。</div>';
+  $('#roleHint').textContent = sel
+    ? (mateSet.size ? `已選「${sel}」：標出的是要一起放入的角色。再點一次取消。` : `「${sel}」沒有固定搭配，可以單獨加入（記得藍紅人數平衡）。再點一次取消。`)
+    : `共 ${list.length} 個角色。點一下角色，會標出要和它一起放入的角色。`;
+}
+$('#roleGrid').addEventListener('click', (e) => {
+  const b = e.target.closest('.role'); if (!b) return;
+  selected = selected === b.dataset.zh ? null : b.dataset.zh;
+  renderRoles();
+});
+renderRoles();
+
+/* Pairs + conditions */
+const teamOf = Object.fromEntries(ROLES.map((r) => [r.zh, r.t]));
+$('#pairList').innerHTML = PAIRS.map((g) => `<div class="sec">
+  <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:baseline"><span class="tag ${g.cls}">${g.kind}</span><span class="hint">${g.desc}</span></div>
+  <div class="grid2">${g.sets.map((set) => `<div class="box pair">${set.map((z, i) => `${i ? '<span class="ar" aria-hidden="true">⟷</span>' : ''}<span class="nm"><span class="dot">${bands(teamOf[z])}</span>${esc(z)}</span>`).join('')}</div>`).join('')}</div>
+</div>`).join('');
+$('#condTable').innerHTML = CONDS.map((c) => `<tr><td>${c[0]}</td><td>${esc(c[1])}</td></tr>`).join('');
+</script>
+
+</body>
+</html>
